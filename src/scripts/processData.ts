@@ -5,7 +5,6 @@ import { Do } from 'fp-ts-contrib/Do'
 
 import {RawRecordType, RawDataType} from "../types/RawDataType"
 import {RecordType, DataType, parseIndicatorOpt} from "../types/DataType"
-import { parseJsonSourceFileConfigFileContent } from 'typescript'
 
 function parseDateOpt (str: string | undefined): O.Option<Date> {
   const date = new Date(str ?? '')
@@ -48,7 +47,7 @@ export function processData(rawData: RawDataType): DataType {
 
 export function getCountryData(str: string, data: DataType): DataType {
   return data
-    .filter(rec => rec.country == str)
+    .filter(rec => rec.country === str)
     .sort(
       (r1, r2) => r1.date.getTime() - r2.date.getTime()
     )
