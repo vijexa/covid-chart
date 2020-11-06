@@ -29,4 +29,7 @@ export default async function fetchRawData (url?: string): Promise<E.Either<Json
           error: `http response was not ok, it was: ${response.status} ${response.statusText}`
         })
     )
+    .catch(
+      reason => E.left({error: `network problem: ${reason}`})
+    )
 }
