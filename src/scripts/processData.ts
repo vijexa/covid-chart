@@ -7,8 +7,8 @@ import {RawRecordType, RawDataType} from "../types/RawDataType"
 import {RecordType, DataType, parseIndicatorOpt} from "../types/DataType"
 import { parseJsonSourceFileConfigFileContent } from 'typescript'
 
-function parseDateOpt (str: string): O.Option<Date> {
-  const date = new Date(str)
+function parseDateOpt (str: string | undefined): O.Option<Date> {
+  const date = new Date(str ?? '')
   switch(date.toString()) {
     case "Invalid Date":
       return O.none
@@ -17,8 +17,8 @@ function parseDateOpt (str: string): O.Option<Date> {
   }
 }
 
-function parseFloatOpt (str: string): O.Option<number> {
-  const float = parseFloat(str)
+function parseFloatOpt (str: string | undefined): O.Option<number> {
+  const float = parseFloat(str ?? '')
   return float ? O.some(float) : O.none
 }
 

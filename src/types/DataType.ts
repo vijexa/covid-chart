@@ -5,7 +5,7 @@ type CasesIndicator = "confirmed cases"
 
 export type Indicator = DeathsIndicator | CasesIndicator
 
-export function parseIndicatorOpt (str: string): O.Option<Indicator> {
+export function parseIndicatorOpt (str: string | undefined): O.Option<Indicator> {
   switch(str) {
     case "deaths":
       return O.some(str)
