@@ -1,18 +1,18 @@
-import { Option, some, none } from 'fp-ts/Option'
+import * as O from 'fp-ts/Option'
 
 type DeathsIndicator = "deaths"
 type CasesIndicator = "confirmed cases"
 
 export type Indicator = DeathsIndicator | CasesIndicator
 
-export function parseIndicator (str: string): Option<Indicator> {
+export function parseIndicatorOpt (str: string): O.Option<Indicator> {
   switch(str) {
     case "deaths":
-      return some(str)
+      return O.some(str)
     case "confirmed cases":
-      return some(str)
+      return O.some(str)
     default: 
-      return none
+      return O.none
   }
 }
 

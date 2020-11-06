@@ -1,10 +1,11 @@
 import * as O from 'fp-ts/Option'
 import * as A from 'fp-ts/Array'
-import { pipe } from 'fp-ts/lib/function'
+import { pipe, identity } from 'fp-ts/lib/function'
 import { Do } from 'fp-ts-contrib/Do'
 
 import {RawRecordType, RawDataType} from "../types/RawDataType"
-import {RecordType, DataType, parseIndicator} from "../types/DataType"
+import {RecordType, DataType, parseIndicatorOpt} from "../types/DataType"
+import { parseJsonSourceFileConfigFileContent } from 'typescript'
 
 function parseDateOpt (str: string): O.Option<Date> {
   const date = new Date(str)
@@ -24,15 +25,16 @@ function parseFloatOpt (str: string): O.Option<number> {
 function processRecord (record: RawRecordType): O.Option<RecordType> {
   return Do(O.option)
     .bindL('country',     () => record.country ? O.some(record.country) : O.none)
-    .bindL('indicator',   () => parseIndicator(record.indicator))
-    .bindL('dailyCount',  () => O.some(record.daily_count))
+    .bindL('indicator',   () => parseIndicatorOpt(record.indicator))
+    .bindL('dailyCount',  () => record.daily_count !== undefined ? O.some(record.daily_count) : O.none)
     .bindL('date',        () => parseDateOpt(record.date))
     .bindL('rate14day',   () => parseFloatOpt(record.rate_14_day))
     .bindL('source',      () => record.source ? O.some(record.source) : O.none)
-    .return((record) => record)
+    .return(identity)
 }
 
-export default function processData(rawData: RawDataType): DataType {
+export function processData(rawData: RawDataType): DataType {
+
   const processed = 
     A.compact(
       pipe(
@@ -40,22 +42,14 @@ export default function processData(rawData: RawDataType): DataType {
         A.map(processRecord)
       )
     )
-    
+
   return processed
 }
 
-/* 
-export default function (rawData: RawDataType): DataType {
-  const processed: DataType = 
-    rawData.flatMap(
-      (record) => ({
-        country: record.country,
-        indicator: parseIndicator(record.indicator),
-        dailyCount: record.daily_count,
-        date: new Date(record.date),
-        rate14day: parseFloat(record.rate_14_day),
-        source: record.source  
-      })
+export function getCountryData(str: string, data: DataType): DataType {
+  return data
+    .filter(rec => rec.country == str)
+    .sort(
+      (r1, r2) => r1.date.getTime() - r2.date.getTime()
     )
-  return processed
-} */
+}
