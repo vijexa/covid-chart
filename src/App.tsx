@@ -1,36 +1,34 @@
-import React from 'react';
-import './App.css';
-import Chart from './components/CovidChart'
-import * as E from 'fp-ts/Either'
-import {pipe} from 'fp-ts/function'
+import React from 'react'
+import styled from 'styled-components'
 
-import {data} from "./testData"
-import {processData} from './scripts/processData'
-import fetchRawData from './scripts/fetchRawData'
+import ChartBlock from './components/ChartBlock'
 
-(async () => {
-  const rawData = await fetchRawData()
-  console.log('rawData: ', rawData)
-  pipe(
-    rawData,
-    E.fold(
-      error   => console.log('error: ', error.error),
-      rawData => console.log('processedData: ', processData(rawData))
-    )
-  )
-})()
+const StyledApp = styled.div`
+  text-align: left;
+  background-color: #ffffff;
+  min-height: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: flex-start;
+  font-size: calc(10px + 2vmin);
+  color: rgb(39, 39, 39);
+  padding: 5%;
+`
+
+const StyledHeader = styled.header`
+  font-size: 2em;
+  margin-bottom: 0.5em;
+`
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        Fuck
-        <br></br>
-        sdfdsfsdf
-        <br></br>
-      </header>
-      <Chart data={processData(data)} country="Latvia" indicator="confirmed cases"/>
-    </div>
+    <StyledApp>
+      <StyledHeader>
+        Super cool app description
+      </StyledHeader>
+      <ChartBlock height={500} />
+    </StyledApp>
   );
 }
 
