@@ -18,17 +18,17 @@ function parseDateOpt (str: string | undefined): O.Option<Date> {
 
 function parseFloatOpt (str: string | undefined): O.Option<number> {
   const float = parseFloat(str ?? '')
-  return float ? O.some(float) : O.none
+  return float ? O.some(float) : O.some(0)
 }
 
 function processRecord (record: RawRecordType): O.Option<RecordType> {
   return Do(O.option)
     .bindL('country',     () => record.country ? O.some(record.country) : O.none)
     .bindL('indicator',   () => parseIndicatorOpt(record.indicator))
-    .bindL('dailyCount',  () => record.daily_count !== undefined ? O.some(record.daily_count) : O.none)
+    .bindL('dailyCount',  () => record.daily_count !== undefined ? O.some(record.daily_count) : O.some(0))
     .bindL('date',        () => parseDateOpt(record.date))
     .bindL('rate14day',   () => parseFloatOpt(record.rate_14_day))
-    .bindL('source',      () => record.source ? O.some(record.source) : O.none)
+    .bindL('source',      () => record.source ? O.some(record.source) : O.some("no source"))
     .return(identity)
 }
 
