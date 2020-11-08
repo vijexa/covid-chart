@@ -3,7 +3,8 @@ import * as E from 'fp-ts/Either'
 import {RawDataType} from '../types/RawDataType'
 
 const url = 'https://opendata.ecdc.europa.eu/covid19/nationalcasedeath/json/'
-const CORSedUrl = 'http://localhost:8010/proxy/covid19/nationalcasedeath/json/'
+const CORSproxy = 'https://cors-anywhere.herokuapp.com/'
+const CORSedUrl = CORSproxy + url
 
 type JsonError = {
   error: string
