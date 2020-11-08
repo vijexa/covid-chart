@@ -4,7 +4,7 @@ import { pipe, identity } from 'fp-ts/lib/function'
 import { Do } from 'fp-ts-contrib/Do'
 
 import {RawRecordType, RawDataType} from "../types/RawDataType"
-import {RecordType, DataType, parseIndicatorOpt} from "../types/DataType"
+import {RecordType, DataType, parseIndicatorOpt, Indicator} from "../types/DataType"
 
 function parseDateOpt (str: string | undefined): O.Option<Date> {
   const date = new Date(str ?? '')
@@ -46,8 +46,18 @@ export function processData(rawData: RawDataType): DataType {
 }
 
 export function getCountryData(str: string, data: DataType): DataType {
+  const country = str.toLowerCase()
   return data
-    .filter(rec => rec.country === str)
+    .filter(rec => rec.country.toLowerCase() === country)
+}
+
+export function getIndicatorData(indicator: Indicator, data: DataType): DataType {
+  return data
+    .filter(rec => rec.indicator === indicator)
+}
+
+export function sortDataByDate(data: DataType): DataType {
+  return data
     .sort(
       (r1, r2) => r1.date.getTime() - r2.date.getTime()
     )
