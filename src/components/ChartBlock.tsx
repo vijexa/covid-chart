@@ -7,10 +7,8 @@ import { CountryDropdown } from 'react-country-region-selector'
 import {processData} from '../scripts/processData'
 import fetchRawData from '../scripts/fetchRawData'
 import {DataType, Indicator} from '../types/DataType'
-import CovidChart from './CovidChart';
 import IndicatorDropdown from './IndicatorDropdown'
-import LoadingSpinner from './LoadingSpinner'
-import NoDataMessage from './NoDataMessage'
+import ChartOrLoadingOrMessage from './ChartOrLoadingOrMessage'
 
 const DropdownStyles = css`
   padding: 0.5em;
@@ -78,13 +76,7 @@ export default class ChartBlock extends React.Component<ChartBlockProps, ChartBl
       <div>
         <StyledCountryDropdown value={state.country ?? ''} onChange={(country) => this.changeData(state.data, country, state.indicator) }/>
         <StyledIndicatorDropdown onChange={(indicator) => this.changeData(state.data, state.country, indicator)} />
-        {
-          state.loading
-            ? <LoadingSpinner height={props.height} />
-            : (state.data && state.country && state.indicator)
-              ? <CovidChart height={props.height} data={state.data} country={state.country} indicator={state.indicator} />
-              : <NoDataMessage height={props.height} country={state.country} indicator={state.indicator} />
-        }
+        <ChartOrLoadingOrMessage height={props.height} loading={state.loading} data={state.data} country={state.country} indicator={state.indicator} />
       </div>
       
     )
