@@ -1,25 +1,39 @@
-import { StateT } from 'fp-ts/lib/StateT'
 import * as React from 'react'
+import MultiSelect from "react-multi-select-component"
 
 import {Indicator} from '../types/DataType'
 
+type OptionType = {
+  value: Indicator
+  label: string
+}
+
 type IndicatorDropdownProps = {
   className?: string
-  onChange: (indicator: Indicator) => void
+  values: Indicator[]
+
+  onChange: (indicator: Indicator[]) => void
 }
+
+const options: OptionType[] = [
+  { value: 'confirmed cases', label: 'Confirmed cases' },
+  { value: 'deaths', label: 'Deaths' }
+]
  
 export default class IndicatorDropdown extends React.Component<IndicatorDropdownProps> {
-  constructor(props: IndicatorDropdownProps) {
-    super(props)
-  }
 
   render() { 
     const props = this.props
+
     return (
-      <select className={props.className} onChange={(event) => props.onChange(event.target.value as Indicator)} >
-        <option>confirmed cases</option>
-        <option>deaths</option>
-      </select>
+      <MultiSelect 
+        className={props.className} 
+        value={options.filter(option => props.values.includes(option.value))} 
+        options={options} 
+        onChange={(selected: OptionType[]) => props.onChange(selected.map(v => v.value))} 
+        labelledBy="Select indicator"
+        hasSelectAll={false}
+      />
     )
   }
 }
