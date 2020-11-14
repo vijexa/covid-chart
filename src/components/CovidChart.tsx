@@ -1,9 +1,10 @@
 import React from 'react'
-import {LineChart, XAxis, YAxis, CartesianGrid, Line, ResponsiveContainer} from 'recharts'
+import {LineChart, XAxis, YAxis, CartesianGrid, Line, ResponsiveContainer, Legend} from 'recharts'
 
 import AngledTick from './AngledTick'
 import {DataType, Indicator} from '../types/DataType'
 import {getCountryData, getIndicatorData, sortDataByDate} from '../scripts/processData'
+import generateHexColors from '../scripts/generateColors'
 
 type CovidChartProps = {
   data: DataType
@@ -20,7 +21,7 @@ type ChartRecord = {
 
 export default class CovidChart extends React.Component <CovidChartProps> {
   
-  // making cringe format data to satisfy rechart
+  // making cringe data format to satisfy rechart
   formatData = (props: CovidChartProps): ChartRecord[] => {
     // TODO: optimise
     const countriesData = props.countries.flatMap(
@@ -34,10 +35,9 @@ export default class CovidChart extends React.Component <CovidChartProps> {
     )
 
     // data that is sorted by date and has a property with dynamic name
-    // e.g. 'Afghanistandeathsrate14day'
     const sortedNamedData: ChartRecord[] = sortDataByDate(indicatorData).map(
       r => {
-        const parName = r.country + r.indicator + 'rate14day'
+        const parName = this.makeEntryName(r.country, r.indicator)
         return {
           date: r.date.getDate() + "." + (r.date.getMonth() + 1), 
           parameterName: parName,
@@ -64,15 +64,44 @@ export default class CovidChart extends React.Component <CovidChartProps> {
 
     return formattedData
   }
+  
+  makeEntryName (country: string, indicator: Indicator): string {
+    const formatIndicator = (ind: Indicator) => {
+      switch (ind) {
+        case 'confirmed cases':
+          return 'cc'
+        case 'deaths':
+          return 'd'
+      }
+    }
+
+    return `${country}, ${formatIndicator(indicator)}`
+  }
 
   render() {
     const props = this.props
     
     const formattedData = this.formatData(props)
-    const objectData = Object.fromEntries(Object.entries(formattedData))
+
+    const dataEntries = Object
+      .entries(formattedData[0])
+      .filter(
+        ([entry, _]) => entry !== 'date' && entry !== 'parameterName'
+      )
 
     console.log("props: ", props, ", formatted data: ", formattedData)
-    console.log("objectData", objectData)
+
+    const colors = generateHexColors(dataEntries.length)
+    console.log("colors:", colors)
+
+    const dataColors = dataEntries.map(
+      ([entry, _], i) => ({
+        entry: entry,
+        color: colors[i]
+      })
+    )
+
+    console.log('data colors:', dataColors)
 
     return (
       <div>
@@ -82,12 +111,19 @@ export default class CovidChart extends React.Component <CovidChartProps> {
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
             <XAxis dataKey="date" interval={30} dx={10} height={40} tick={<AngledTick angle={-35} />} />
             <YAxis />
+            <Legend />
 
             {
               props.countries.flatMap(
                 country => props.indicators.map(
                   indicator => 
-                    <Line key={country + indicator} type="monotone" dataKey={country + indicator + 'rate14day'} stroke="#8884d8" dot={false} strokeWidth={3} />
+                    <Line 
+                      key={this.makeEntryName(country, indicator)} 
+                      type="monotone" 
+                      dataKey={this.makeEntryName(country, indicator)} 
+                      stroke={dataColors.find(val => val.entry == this.makeEntryName(country, indicator))?.color ?? '#000000'} 
+                      dot={false} 
+                      strokeWidth={3} />
                 )
               )
             }
