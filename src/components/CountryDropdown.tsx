@@ -1,9 +1,6 @@
 import * as React from 'react'
 import MultiSelect from "react-multi-select-component"
 
-import {Indicator} from '../types/DataType'
-
-
 export type OptionType = {
   value: string
   label: string
