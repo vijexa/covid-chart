@@ -62,3 +62,24 @@ export function sortDataByDate(data: DataType): DataType {
       (r1, r2) => r1.date.getTime() - r2.date.getTime()
     )
 }
+
+export function getSortedCountryList(data: DataType): string[] {
+  return data
+    .map(record => record.country)
+    .sort(
+      (c1, c2) => {
+        const c1l = c1.toLowerCase(), c2l = c2.toLowerCase()
+        if (c1l < c2l) return -1
+        if (c1l > c2l) return 1
+        return 0
+      }
+    )
+    .reduce(
+      (acc, curr) => (
+        acc[acc.length - 1] != curr 
+          ? [...acc, curr]
+          : acc
+      ),
+      [] as string[]
+    )
+}
