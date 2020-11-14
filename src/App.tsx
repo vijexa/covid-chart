@@ -27,7 +27,7 @@ function App() {
       <StyledHeader>
         Super cool app description
       </StyledHeader>
-      <ChartBlock height={500} />
+      <ChartBlock chartHeight={500} />
     </StyledApp>
   );
 }

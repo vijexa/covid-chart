@@ -29,7 +29,7 @@ const StyledIndicatorDropdown = styled(IndicatorDropdown)`
 `
 
 type ChartBlockProps = {
-  height: number
+  chartHeight: number
 }
  
 type ChartBlockState = {
@@ -108,7 +108,7 @@ export default class ChartBlock extends React.Component<ChartBlockProps, ChartBl
         />
 
         <ChartOrLoadingOrMessage 
-          height={props.height} 
+          height={props.chartHeight} 
           loading={state.loading} 
           data={state.data} 
           countries={state.countries} 
