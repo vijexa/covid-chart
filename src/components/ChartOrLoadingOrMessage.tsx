@@ -26,8 +26,7 @@ export default class ChartOrLoadingOrMessage extends React.Component<ChartOrLoad
           && props.countries?.length !== 0 
           && props.indicators 
           && props.indicators?.length !== 0
-        )
-          ? <CovidChart height={props.height} data={props.data} countries={props.countries} indicators={props.indicators} />
+        ) ? <CovidChart height={props.height} data={props.data} countries={props.countries} indicators={props.indicators} />
           : <NoDataMessage height={props.height} countries={props.countries} indicators={props.indicators} />
     )
   }
