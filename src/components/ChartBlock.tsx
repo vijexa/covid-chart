@@ -2,7 +2,6 @@ import * as React from 'react'
 import * as E from 'fp-ts/Either'
 import {pipe} from 'fp-ts/function'
 import styled, { css } from 'styled-components'
-import { CountryDropdown } from 'react-country-region-selector'
 
 import {getSortedCountryList, processData} from '../scripts/processData'
 import fetchRawData from '../scripts/fetchRawData'
@@ -19,10 +18,6 @@ const DropdownStyles = css`
   border-radius: 0.5em;
   appearance: none;
   background-image: url(down-arrow.jpg) no-repeat right;
-`
-
-const StyledCountryDropdown = styled(CountryDropdown)`
-  ${DropdownStyles}
 `
 
 const AnotherStyledCountryDropdown = styled(AnotherCountryDropdown)`

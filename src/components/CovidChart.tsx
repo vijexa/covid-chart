@@ -121,7 +121,7 @@ export default class CovidChart extends React.Component <CovidChartProps> {
                       key={this.makeEntryName(country, indicator)} 
                       type="monotone" 
                       dataKey={this.makeEntryName(country, indicator)} 
-                      stroke={dataColors.find(val => val.entry == this.makeEntryName(country, indicator))?.color ?? '#000000'} 
+                      stroke={dataColors.find(val => val.entry === this.makeEntryName(country, indicator))?.color ?? '#000000'} 
                       dot={false} 
                       strokeWidth={3} />
                 )

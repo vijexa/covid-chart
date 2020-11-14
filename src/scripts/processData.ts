@@ -76,7 +76,7 @@ export function getSortedCountryList(data: DataType): string[] {
     )
     .reduce(
       (acc, curr) => (
-        acc[acc.length - 1] != curr 
+        acc[acc.length - 1] !== curr 
           ? [...acc, curr]
           : acc
       ),
