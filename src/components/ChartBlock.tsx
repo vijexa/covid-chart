@@ -90,14 +90,6 @@ export default class ChartBlock extends React.Component<ChartBlockProps, ChartBl
     return ( 
       <div>
 
-        <StyledIndicatorDropdown 
-          values={state.indicators} 
-          onChange={ 
-            (indicators: Indicator[]) => 
-              this.changeData(state.data, state.countries, indicators) 
-          } 
-        />
-
         <AnotherStyledCountryDropdown 
           values={state.countries ?? []}
           options={state.countryOptions}
@@ -105,6 +97,14 @@ export default class ChartBlock extends React.Component<ChartBlockProps, ChartBl
             (countries: string[]) =>
               this.changeData(state.data, countries, state.indicators)
           }
+        />
+
+        <StyledIndicatorDropdown 
+          values={state.indicators} 
+          onChange={ 
+            (indicators: Indicator[]) => 
+              this.changeData(state.data, state.countries, indicators) 
+          } 
         />
 
         <ChartOrLoadingOrMessage 
