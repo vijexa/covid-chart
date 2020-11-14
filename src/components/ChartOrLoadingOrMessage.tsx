@@ -7,8 +7,8 @@ import NoDataMessage from './NoDataMessage';
 
 type ChartOrLoadingOrMessageProps = {
   data?: DataType
-  country?: string
-  indicator: Indicator
+  countries?: string[]
+  indicators: Indicator[]
   height: number
   loading: boolean
 }
@@ -20,9 +20,15 @@ export default class ChartOrLoadingOrMessage extends React.Component<ChartOrLoad
     return (
       props.loading
         ? <LoadingSpinner height={props.height} />
-        : (props.data && props.country && props.indicator)
-          ? <CovidChart height={props.height} data={props.data} country={props.country} indicator={props.indicator} />
-          : <NoDataMessage height={props.height} country={props.country} indicator={props.indicator} />
+        : (
+          props.data 
+          && props.countries 
+          && props.countries?.length !== 0 
+          && props.indicators 
+          && props.indicators?.length !== 0
+        )
+          ? <CovidChart height={props.height} data={props.data} countries={props.countries} indicators={props.indicators} />
+          : <NoDataMessage height={props.height} countries={props.countries} indicators={props.indicators} />
     )
   }
 }

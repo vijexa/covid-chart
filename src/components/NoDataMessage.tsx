@@ -5,8 +5,8 @@ import AlignedContainer from './AlignedContainer'
 
 type NoDataMessageProps = {
   height: number
-  country?: string
-  indicator?: Indicator
+  countries?: string[]
+  indicators?: Indicator[]
 }
  
 export default class NoDataMessage extends React.Component<NoDataMessageProps> {
@@ -15,8 +15,8 @@ export default class NoDataMessage extends React.Component<NoDataMessageProps> {
     return (
       <AlignedContainer height={props.height}>
         {
-          (props.country && props.indicator)
-            ? `No data to show for ${props.indicator} in ${props.country}`
+          (props.countries && props.countries.length !== 0 && props.indicators && props.indicators.length !== 0)
+            ? `No data to show for ${props.indicators.join(', ')} in ${props.countries.join(', ')}`
             : 'No data to show'
 
         }
