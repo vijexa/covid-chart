@@ -4,10 +4,11 @@ import {pipe} from 'fp-ts/function'
 import styled, { css } from 'styled-components'
 import { CountryDropdown } from 'react-country-region-selector'
 
-import {processData} from '../scripts/processData'
+import {getSortedCountryList, processData} from '../scripts/processData'
 import fetchRawData from '../scripts/fetchRawData'
 import {DataType, Indicator} from '../types/DataType'
 import IndicatorDropdown from './IndicatorDropdown'
+import AnotherCountryDropdown, {OptionType as CountryOptionType} from './CountryDropdown'
 import ChartOrLoadingOrMessage from './ChartOrLoadingOrMessage'
 
 const DropdownStyles = css`
@@ -24,6 +25,10 @@ const StyledCountryDropdown = styled(CountryDropdown)`
   ${DropdownStyles}
 `
 
+const AnotherStyledCountryDropdown = styled(AnotherCountryDropdown)`
+  ${DropdownStyles}
+`
+
 const StyledIndicatorDropdown = styled(IndicatorDropdown)`
   ${DropdownStyles}
 `
@@ -34,27 +39,39 @@ type ChartBlockProps = {
  
 type ChartBlockState = {
   data?: DataType
-  country?: string
-  indicator: Indicator
+  countries?: string[]
+  indicators: Indicator[]
+
+  countryOptions: CountryOptionType[]
 
   loading: boolean
 }
  
 export default class ChartBlock extends React.Component<ChartBlockProps, ChartBlockState> {
-  changeData = (data?: DataType, country?: string, indicator?: Indicator) => 
+  changeData = (data?: DataType, countries?: string[], indicators?: Indicator[]) => 
     this.setState({
-      data: data, 
-      country: country, 
-      indicator: indicator ?? this.state.indicator, 
+      data: data ?? this.state.data, 
+      countries: countries ?? this.state.countries, 
+      indicators: indicators ?? this.state.indicators, 
+      countryOptions: this.state.countryOptions 
+        ? getSortedCountryList(data ?? [])
+          .map(
+            country => ({
+              value: country,
+              label: country
+            })
+          )
+        : [],
       loading: false
     })
 
   constructor(props: ChartBlockProps) {
     super(props)
-    this.state = {loading: false, indicator: 'confirmed cases'}
+    this.state = {loading: false, indicators: [], countryOptions: []}
   }
 
   componentDidMount() {
+    // fetching data from server
     (async () => {
       this.setState({loading: true})
       const rawData = await fetchRawData()
@@ -72,11 +89,36 @@ export default class ChartBlock extends React.Component<ChartBlockProps, ChartBl
   render() { 
     const state = this.state
     const props = this.props
+
+    console.log(getSortedCountryList(state.data ?? []), state.countries, state.countryOptions)
+
     return ( 
       <div>
-        <StyledCountryDropdown value={state.country ?? ''} onChange={(country) => this.changeData(state.data, country, state.indicator) }/>
-        <StyledIndicatorDropdown onChange={(indicator) => this.changeData(state.data, state.country, indicator)} />
-        <ChartOrLoadingOrMessage height={props.height} loading={state.loading} data={state.data} country={state.country} indicator={state.indicator} />
+
+        <StyledIndicatorDropdown 
+          values={state.indicators} 
+          onChange={ 
+            (indicators: Indicator[]) => 
+              this.changeData(state.data, state.countries, indicators) 
+          } 
+        />
+
+        <AnotherStyledCountryDropdown 
+          values={state.countries ?? []}
+          options={state.countryOptions}
+          onChange={
+            (countries: string[]) =>
+              this.changeData(state.data, countries, state.indicators)
+          }
+        />
+
+        <ChartOrLoadingOrMessage 
+          height={props.height} 
+          loading={state.loading} 
+          data={state.data} 
+          countries={state.countries} 
+          indicators={state.indicators} 
+        />
       </div>
       
     )
