@@ -1,11 +1,12 @@
 import React from 'react'
+import styled from 'styled-components'
 import {LineChart, XAxis, YAxis, CartesianGrid, Line, ResponsiveContainer, Legend} from 'recharts'
 
 import AngledTick from './AngledTick'
 import {DataType, Indicator} from '../types/DataType'
 import {getCountryData, getIndicatorData, sortDataByDate} from '../scripts/processData'
 import generateHexColors from '../scripts/generateColors'
-import styled from 'styled-components'
+import ChartTitle from './ChartTitle'
 
 type CovidChartProps = {
   data: DataType
@@ -19,14 +20,6 @@ type ChartRecord = {
   parameterName: string
   [key: string]: any
 }
-
-const StyledTitle = styled.div`
-  padding: 1em;
-  
-  :first-letter {
-    text-transform: capitalize;  
-  }
-`
 
 export default class CovidChart extends React.Component <CovidChartProps> {
   
@@ -114,14 +107,10 @@ export default class CovidChart extends React.Component <CovidChartProps> {
 
     return (
       <div>
-        <StyledTitle>
-          {props.indicators.join(' and ')} in {
-            props.countries
-              .slice(0, props.countries.length - 1)
-              .join(', ')
-          }{props.countries.length > 1 ? ' and ' : ''} 
-          {props.countries[props.countries.length - 1]}, 14 day cumulative
-        </StyledTitle>
+        <ChartTitle 
+          countries={props.countries} 
+          indicators={props.indicators} 
+        />
 
         <ResponsiveContainer width="100%" height={props.height}>
           <LineChart style={{fontSize: 20}} data={formattedData}>
@@ -140,7 +129,8 @@ export default class CovidChart extends React.Component <CovidChartProps> {
                       dataKey={this.makeEntryName(country, indicator)} 
                       stroke={dataColors.find(val => val.entry === this.makeEntryName(country, indicator))?.color ?? '#000000'} 
                       dot={false} 
-                      strokeWidth={3} />
+                      strokeWidth={3} 
+                    />
                 )
               )
             }
