@@ -14,7 +14,7 @@ const DropdownStyles = css`
   padding: 0.25em;
   padding-left: 0.75em;
   font-size: 1em;
-  width: 20em;
+  width: 25em;
   max-width: 95%;
 `
 
@@ -24,6 +24,12 @@ const StyledCountryDropdown = styled(CountryDropdown)`
 
 const StyledIndicatorDropdown = styled(IndicatorDropdown)`
   ${DropdownStyles}
+`
+
+const StyledContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `
 
 type ChartBlockProps = {
@@ -86,7 +92,7 @@ export default class ChartBlock extends React.Component<ChartBlockProps, ChartBl
     console.log(getSortedCountryList(state.data ?? []), state.countries, state.countryOptions)
 
     return ( 
-      <div>
+      <StyledContainer>
 
         <StyledCountryDropdown 
           values={state.countries ?? []}
@@ -112,7 +118,7 @@ export default class ChartBlock extends React.Component<ChartBlockProps, ChartBl
           countries={state.countries} 
           indicators={state.indicators} 
         />
-      </div>
+      </StyledContainer>
       
     )
   }

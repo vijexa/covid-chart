@@ -18,6 +18,7 @@ const StyledApp = styled.div`
 const StyledHeader = styled.header`
   font-size: 2em;
   margin-bottom: 0.25em;
+  text-align: center;
 `
 
 function App() {

@@ -18,7 +18,6 @@ const StyledChartTitle = styled.div`
 `
 
 const HighlightedText = styled.span<{color: string}>`
-  font-weight: lighter;
   background-color: ${props => props.color};
 `
 
