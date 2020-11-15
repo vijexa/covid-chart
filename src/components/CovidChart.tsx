@@ -1,11 +1,16 @@
 import React from 'react'
 import {LineChart, XAxis, YAxis, CartesianGrid, Line, ResponsiveContainer, Legend} from 'recharts'
+import styled from 'styled-components'
 
 import AngledTick from './AngledTick'
 import {DataType, Indicator} from '../types/DataType'
 import {getCountryData, getIndicatorData, sortDataByDate} from '../scripts/processData'
 import generateHexColors from '../scripts/generateColors'
 import ChartTitle from './ChartTitle'
+
+const StyledContainer = styled.div`
+  width: 100%;
+`
 
 type CovidChartProps = {
   data: DataType
@@ -105,7 +110,7 @@ export default class CovidChart extends React.Component <CovidChartProps> {
     console.log('data colors:', dataColors)
 
     return (
-      <div>
+      <StyledContainer>
         <ChartTitle 
           countries={props.countries} 
           indicators={props.indicators} 
@@ -136,7 +141,7 @@ export default class CovidChart extends React.Component <CovidChartProps> {
             
           </LineChart>
         </ResponsiveContainer>
-      </div>
+      </StyledContainer>
     )
   }
 }

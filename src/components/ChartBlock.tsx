@@ -14,7 +14,7 @@ const DropdownStyles = css`
   padding: 0.25em;
   padding-left: 0.75em;
   font-size: 1em;
-  width: 25em;
+  width: 20em;
   max-width: 95%;
 `
 
