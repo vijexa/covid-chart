@@ -119,7 +119,7 @@ export default class CovidChart extends React.Component <CovidChartProps> {
         <ResponsiveContainer width="100%" height={props.height}>
           <LineChart style={{fontSize: 20}} data={formattedData}>
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="date" interval={30} dx={10} height={40} tick={<AngledTick angle={-55} />} />
+            <XAxis dataKey="date" interval={30} dx={10} height={40} tick={<AngledTick angle={-55} initMargin={-4} />} />
             <YAxis width={35}/>
             <Legend />
 
