@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import {LineChart, XAxis, YAxis, CartesianGrid, Line, ResponsiveContainer, Legend} from 'recharts'
 
 import AngledTick from './AngledTick'

@@ -11,13 +11,11 @@ import AnotherCountryDropdown, {OptionType as CountryOptionType} from './Country
 import ChartOrLoadingOrMessage from './ChartOrLoadingOrMessage'
 
 const DropdownStyles = css`
-  padding: 0.5em;
-  margin-bottom: 0.5em;
+  padding: 0.25em;
+  padding-left: 0.75em;
   font-size: 1em;
-  width: 100%;
-  border-radius: 0.5em;
-  appearance: none;
-  background-image: url(down-arrow.jpg) no-repeat right;
+  width: 20em;
+  max-width: 95%;
 `
 
 const AnotherStyledCountryDropdown = styled(AnotherCountryDropdown)`
