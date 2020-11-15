@@ -7,7 +7,7 @@ import {getSortedCountryList, processData} from '../scripts/processData'
 import fetchRawData from '../scripts/fetchRawData'
 import {DataType, Indicator} from '../types/DataType'
 import IndicatorDropdown from './IndicatorDropdown'
-import AnotherCountryDropdown, {OptionType as CountryOptionType} from './CountryDropdown'
+import CountryDropdown, {OptionType as CountryOptionType} from './CountryDropdown'
 import ChartOrLoadingOrMessage from './ChartOrLoadingOrMessage'
 
 const DropdownStyles = css`
@@ -18,7 +18,7 @@ const DropdownStyles = css`
   max-width: 95%;
 `
 
-const AnotherStyledCountryDropdown = styled(AnotherCountryDropdown)`
+const StyledCountryDropdown = styled(CountryDropdown)`
   ${DropdownStyles}
 `
 
@@ -88,7 +88,7 @@ export default class ChartBlock extends React.Component<ChartBlockProps, ChartBl
     return ( 
       <div>
 
-        <AnotherStyledCountryDropdown 
+        <StyledCountryDropdown 
           values={state.countries ?? []}
           options={state.countryOptions}
           onChange={

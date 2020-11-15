@@ -1,5 +1,4 @@
 import * as React from 'react'
-import MultiSelect from "react-multi-select-component"
 
 import {Indicator} from '../types/DataType'
 import MultiSelectDropdown from './MultiSelectDropdown'

@@ -1,6 +1,4 @@
 import * as React from 'react'
-import MultiSelect from "react-multi-select-component"
-import styled from 'styled-components'
 
 import MultiSelectDropdown from './MultiSelectDropdown'
 
