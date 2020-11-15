@@ -1,5 +1,8 @@
 import * as React from 'react'
 import MultiSelect from "react-multi-select-component"
+import styled from 'styled-components'
+
+import MultiSelectDropdown from './MultiSelectDropdown'
 
 export type OptionType = {
   value: string
@@ -13,21 +16,19 @@ interface CountryDropdownProps  {
 
   onChange: (country: string[]) => void
 }
- 
-export default class CountryDropdown extends React.Component<CountryDropdownProps> {
 
+export default class CountryDropdown extends React.Component<CountryDropdownProps> {
 
   render() { 
     const props = this.props
 
     return (
-      <MultiSelect 
-        className={props.className} 
-        value={props.options.filter(option => props.values.includes(option.value))} 
-        options={props.options} 
-        onChange={(selected: OptionType[]) => props.onChange(selected.map(v => v.value))} 
-        labelledBy="Select country"
-        hasSelectAll={false}
+      <MultiSelectDropdown 
+        className={props.className}
+        title="🌍 Countries"
+        values={props.values}
+        options={props.options}
+        onChange={props.onChange}
       />
     )
   }

@@ -2,6 +2,7 @@ import * as React from 'react'
 import MultiSelect from "react-multi-select-component"
 
 import {Indicator} from '../types/DataType'
+import MultiSelectDropdown from './MultiSelectDropdown'
 
 type OptionType = {
   value: Indicator
@@ -26,13 +27,12 @@ export default class IndicatorDropdown extends React.Component<IndicatorDropdown
     const props = this.props
 
     return (
-      <MultiSelect 
-        className={props.className} 
-        value={options.filter(option => props.values.includes(option.value))} 
-        options={options} 
-        onChange={(selected: OptionType[]) => props.onChange(selected.map(v => v.value))} 
-        labelledBy="Select indicator"
-        hasSelectAll={false}
+      <MultiSelectDropdown 
+        className={props.className}
+        title="💀 Indicators"
+        values={props.values}
+        options={options}
+        onChange={props.onChange as (indicator: string[]) => void}
       />
     )
   }
