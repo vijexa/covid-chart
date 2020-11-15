@@ -10,5 +10,6 @@ export default styled.div<AlignedContainerProps>`
   margin: auto;
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
 `

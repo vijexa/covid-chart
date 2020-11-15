@@ -13,6 +13,7 @@ export default class LoadingSpinner extends React.Component<LoadingSpinnerProps>
     return (
       <AlignedContainer height={props.height}>
         <PulseLoader size='2em' />
+        Loading data, please stand by
       </AlignedContainer>
     );
   }

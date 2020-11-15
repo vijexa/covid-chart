@@ -16,8 +16,8 @@ export default class NoDataMessage extends React.Component<NoDataMessageProps> {
       <AlignedContainer height={props.height}>
         {
           (props.countries && props.countries.length !== 0 && props.indicators && props.indicators.length !== 0)
-            ? `No data to show for ${props.indicators.join(', ')} in ${props.countries.join(', ')}`
-            : 'No data to show'
+            ? `No data to show for ${props.indicators.join(', ')} in ${props.countries.join(', ')}. The data may be corrupted.`
+            : 'No data to show. Please, select some options above.'
 
         }
       </AlignedContainer>
