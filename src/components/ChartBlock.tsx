@@ -44,6 +44,7 @@ type ChartBlockState = {
   countryOptions: CountryOptionType[]
 
   loading: boolean
+  error?: string
 }
  
 export default class ChartBlock extends React.Component<ChartBlockProps, ChartBlockState> {
@@ -64,6 +65,28 @@ export default class ChartBlock extends React.Component<ChartBlockProps, ChartBl
       loading: false
     })
 
+  raiseError = (error: string) =>
+    this.setState({
+      loading: false,
+      error: error
+    })
+
+  fetchDataOrRaiseError = async () => {
+    this.setState({loading: true})
+    const rawData = await fetchRawData()
+    console.log('rawData: ', rawData)
+    pipe(
+      rawData,
+      E.fold(
+        error   => {
+          console.log('error: ', error.error)
+          this.raiseError(error.error)
+        },
+        rawData => this.changeData(processData(rawData))
+      )
+    )
+  }
+
   constructor(props: ChartBlockProps) {
     super(props)
     this.state = {loading: false, indicators: [], countryOptions: []}
@@ -71,18 +94,7 @@ export default class ChartBlock extends React.Component<ChartBlockProps, ChartBl
 
   componentDidMount() {
     // fetching data from server
-    (async () => {
-      this.setState({loading: true})
-      const rawData = await fetchRawData()
-      console.log('rawData: ', rawData)
-      pipe(
-        rawData,
-        E.fold(
-          error   => console.log('error: ', error.error),
-          rawData => this.changeData(processData(rawData))
-        )
-      )
-    })()
+    this.fetchDataOrRaiseError()
   }
 
   render() { 
@@ -117,6 +129,8 @@ export default class ChartBlock extends React.Component<ChartBlockProps, ChartBl
           data={state.data} 
           countries={state.countries} 
           indicators={state.indicators} 
+          error={state.error}
+          onRetry={this.fetchDataOrRaiseError}
         />
       </StyledContainer>
       
