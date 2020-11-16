@@ -24,6 +24,10 @@ const StyledMultiSelect = styled(MultiSelect)`
   --rmsc-radius: 15px;
   --rmsc-p: 0.5em;
   --rmsc-h: 1.75em;
+
+  div, div div, div div span {
+    transition: none !important;
+  }
 `
 
 export default class MultiSelectDropdown extends React.Component<MultiSelectDropdownProps> {
