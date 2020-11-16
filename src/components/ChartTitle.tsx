@@ -43,8 +43,15 @@ export default class ChartTitle extends React.Component<ChartTitleProps> {
             this.chainElements(props.indicators, ' and ', indicatorsColor)
           } in {
             this.chainElements(props.countries.slice(0, props.countries.length - 1), ', ', countriesColor)
-          }{props.countries.length > 1 ? ' and ' : ''} 
-          <HighlightedText color={countriesColor}>{props.countries[props.countries.length - 1]}</HighlightedText>, 14 day cumulative
+          }
+          
+          {props.countries.length > 1 ? ' and ' : ''} 
+
+          <HighlightedText color={countriesColor}>
+            {props.countries[props.countries.length - 1]}
+          </HighlightedText>
+          
+          , 14 day cumulative per 100 000
       </StyledChartTitle>
     )
   }
