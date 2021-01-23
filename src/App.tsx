@@ -27,7 +27,7 @@ function App() {
       <StyledHeader>
         Covid Chart
       </StyledHeader>
-      <ChartBlock chartHeight={500} />
+      <ChartBlock chartHeight={800} />
     </StyledApp>
   );
 }

@@ -45,12 +45,14 @@ export default class CovidChart extends React.Component <CovidChartProps> {
       r => {
         const parName = this.makeEntryName(r.country, r.indicator)
         return {
-          date: r.date.getDate() + "." + (r.date.getMonth() + 1), 
+          date: r.year_week,
           parameterName: parName,
           [parName]: r.rate14day
         }
       }
     )
+
+    console.log("kekkkk")
 
     // data that is formatted in a chart-friendly format where dynamic properties
     // from sortedNameData are grouped by date
@@ -74,7 +76,7 @@ export default class CovidChart extends React.Component <CovidChartProps> {
   makeEntryName (country: string, indicator: Indicator): string {
     const formatIndicator = (ind: Indicator) => {
       switch (ind) {
-        case 'confirmed cases':
+        case 'cases':
           return 'cc'
         case 'deaths':
           return 'd'
@@ -119,7 +121,7 @@ export default class CovidChart extends React.Component <CovidChartProps> {
         <ResponsiveContainer width="100%" height={props.height}>
           <LineChart style={{fontSize: 20}} data={formattedData}>
             <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="date" interval={30} dx={10} height={50} tick={<AngledTick angle={-55} initMargin={-4} />} />
+            <XAxis dataKey="date" interval={Math.ceil(1200 / window.innerWidth) - 1} dx={10} height={90} tick={<AngledTick angle={-70} initMargin={-14} />} />
             <YAxis width={35}/>
             <Legend />
 

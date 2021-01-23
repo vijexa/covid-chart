@@ -5,7 +5,7 @@ export type RawRecordType = {
   population?: number,
   indicator?: string,
   daily_count?: number,
-  date?: string,
+  year_week?: string,
   rate_14_day?: string,
   source?: string,
 }

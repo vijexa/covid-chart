@@ -16,7 +16,7 @@ type IndicatorDropdownProps = {
 }
 
 const options: OptionType[] = [
-  { value: 'confirmed cases', label: 'Confirmed cases' },
+  { value: 'cases', label: 'Confirmed cases' },
   { value: 'deaths', label: 'Deaths' }
 ]
  

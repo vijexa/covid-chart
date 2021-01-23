@@ -6,16 +6,6 @@ import { Do } from 'fp-ts-contrib/Do'
 import {RawRecordType, RawDataType} from "../types/RawDataType"
 import {RecordType, DataType, parseIndicatorOpt, Indicator} from "../types/DataType"
 
-function parseDateOpt (str: string | undefined): O.Option<Date> {
-  const date = new Date(str ?? '')
-  switch(date.toString()) {
-    case "Invalid Date":
-      return O.none
-    default:
-      return O.some(date)
-  }
-}
-
 function parseFloatOpt (str: string | undefined): O.Option<number> {
   const float = parseFloat(str ?? '')
   return float ? O.some(float) : O.some(0)
@@ -26,7 +16,7 @@ function processRecord (record: RawRecordType): O.Option<RecordType> {
     .bindL('country',     () => record.country ? O.some(record.country) : O.none)
     .bindL('indicator',   () => parseIndicatorOpt(record.indicator))
     .bindL('dailyCount',  () => record.daily_count !== undefined ? O.some(record.daily_count) : O.some(0))
-    .bindL('date',        () => parseDateOpt(record.date))
+    .bindL('year_week',   () => record.year_week ? O.some(record.year_week) : O.none)
     .bindL('rate14day',   () => parseFloatOpt(record.rate_14_day))
     .bindL('source',      () => record.source ? O.some(record.source) : O.some("no source"))
     .return(identity)
@@ -59,7 +49,7 @@ export function getIndicatorData(indicator: Indicator, data: DataType): DataType
 export function sortDataByDate(data: DataType): DataType {
   return data
     .sort(
-      (r1, r2) => r1.date.getTime() - r2.date.getTime()
+      (r1, r2) => (r1.year_week > r2.year_week) ? 1 : -1
     )
 }
 
